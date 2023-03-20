@@ -1,0 +1,47 @@
+spring:
+  batch:
+    job:
+      enabled: true
+    jdbc:
+      initialize-schema: always
+      platform: h2
+  application:
+    name: test-app
+  h2:
+    console:
+      enabled: true
+
+logging:
+  level:
+    org:
+      springframework: trace
+      boot: trace
+
+test:
+  batch:
+    datasource:
+      jdbc-url: jdbc:h2:mem:testdb # following hikari ds semantics
+      username: sa
+      password: password
+      driver-class-name: org.h2.Driver
+  app:
+    datasource:
+      jdbc-url: jdbc:h2:mem:testdb # following hikari ds semantics
+      username: sa
+      password: password
+      driver-class-name: org.h2.Driver
+    config:
+      purchase:
+        chunkSize: 10 #1L
+        pageSize: 10
+        maxItemCount: 10 #10CR
+        itemCountLimitPerResource: 1_00_000
+        outputDir: output/pr
+        fileNamePrefix: pur
+        queryConfig:
+          selectClause: SELECT *
+          fromClause: FROM testpur
+          sortKey: "id"
+          fields:
+            - "id"
+            - "name"
